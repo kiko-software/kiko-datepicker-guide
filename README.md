@@ -1,5 +1,4 @@
-# Instructions for integrating a custom datepicker into a Kiko Chatbot dialogue
-
+# Integrate a custom datepicker
 ## Introduction
 With the Kiko software you can create a chatbot that replaces your online forms - https://www.kiko.bot 
 You can define the behaviour of the form dialogue yourself using an external subbot and web service. 
@@ -8,6 +7,8 @@ You can use your own data types and control elements in the webchat.
 In this tutorial you will get to know an example of a form dialogue with a custom date picker.
 The sample code is based on nodejs and uses a Firestore database from Google to temporarily store the form data. 
 The web service can be hosted at e.g. Google Cloud Run.
+
+You can try the tutorial online with Google Cloud Run. [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/kiko-software/kiko-datepicker-guide&cloudshell_tutorial=README.md) 
 
 ## General process
 For a form dialogue in Kiko Webchat with its own date picker, settings are made in three places.
@@ -112,5 +113,14 @@ Use the cloud-code cloud-run extension of your code editor.
 - Leave the field "Query parameters" deactivated.
 
 ## Test
-When entering "datepicker" in the test chat at the bottom right, a form dialog with a datepicker should now appear as the answer.
+For the test, we need the sample web page mentioned above with the included library for the datepicker:
+https://kiko-datepicker-guide-....a.run.app/index.html
+In order to address the correct chatbot in your account, we need two more parameters
+- the domain name of the Kiko CMS instance - e.g. "cloud02-7c83ec0.prod.1000grad.de" and
+- the bot identifier of the metabot - from "Botlist" / "Edit Bot" / "Identifier" - e.g. "6d5abc25-6110-31fa-87a2-77cd2422c3d5". 
 
+The URL for a test call in the browser in this example is:
+
+https://kiko-datepicker-guide-....a.run.app/index.html?botCmsKey=cloud02-7c83ec0.prod.1000grad.de&botIdentifier=6d5abc25-6110-31fa-87a2-77cd2422c3d5
+
+When entering "datepicker" in the chat at the bottom right, a form dialog with a datepicker should now appear.
