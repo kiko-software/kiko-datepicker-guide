@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <!-- custom html element libs -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/css/datepicker.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>       
+    <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/locales/de.js"></script>
+    <!-- Here follows your normal header content -->
+    <!-- ... -->
+  </head>
+  <body>
+    <!-- Here is your custom body content -->
+    <!-- ... -->
+    <!-- chatbot widget integration - load script async -->
+    <script async>
+      var urlParams;
+      (window.onpopstate = function () {
+          var match,
+              pl     = /\+/g,  // Regex for replacing addition symbol with a space
+              search = /([^&=]+)=?([^&]*)/g,
+              decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+              query  = window.location.search.substring(1);    
+          urlParams = {};
+          while (match = search.exec(query))
+            urlParams[decode(match[1])] = decode(match[2]);
+      })();
+      console.log('urlParams:',urlParams);
+      const script = document.createElement('script');
+      script.src = '//' + urlParams["botCmsKey"] + '/chat/assets/js/main.js';
+      script.id = 'tgd-chat-script';
+      script.onload = async function () {
+        window.$chatbot = new TGDChatBot({ 
+          identifier: urlParams["botIdentifier"] || urlParams["botIdentifier"]
+        });
+        await window.$chatbot.startApp();
+        console.log('... chat app started.');
+
+        // html element injection handling
+        const parser = new DOMParser()
+        window.$chatbot.on('messageReceived', (event) => {
+          event.detail.forEach((message) => {
+            if (message.data.type === 'text/html' && message.data.hasOwnProperty('content')) {
+              const htmlDoc = parser.parseFromString(message.data.content, 'text/html');
+              // custom datepicker injection ---
+              const dateElementId = 'mydatepicker'
+              if (htmlDoc.getElementById(dateElementId)) {
+                const elem = document.getElementById(dateElementId);
+                const datepicker = new Datepicker(elem,{ language: 'de' });
+                elem.addEventListener('changeDate', e => {
+                  window.$chatbot.sendAsUser({ text: Datepicker.formatDate(e.detail.date, 'dd.mm.yyyy', 'de') });
+                });              
+              }
+              // ---
+            }
+          })
+        })
+      };
+      document.getElementsByTagName('body')[0].appendChild(script);
+    </script>
+  </body>
+</html>
