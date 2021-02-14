@@ -50,7 +50,7 @@ Once the form intent is detected, all user messages are sent to the subbot web s
 This function evaluates, among other things, the metadata that is stored as JSON in the CMS for the intention. The request can be forwarded to another sub-function via the "action" property. The assignment is configured in the object "actionToFunctionMapping".
 
 The action "echo" is used for test purposes.
-The action "echo" calls the function "runDatePickerDialog".
+The action "date-picker-dialog" calls the function "runDatePickerDialog".
 
 ### runDatePickerDialog
 In this function, the parameters are passed through which are defined in the metadata of the intent.
