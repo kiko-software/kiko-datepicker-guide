@@ -7,12 +7,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/css/datepicker.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>       
     <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/locales/de.js"></script>
-    <!-- Here follows your normal header content -->
-    <!-- ... -->
   </head>
   <body>
-    <!-- Here is your custom body content -->
-    <!-- ... -->
+    Your page content here.
     <!-- chatbot widget integration - load script async -->
     <script async>
       var urlParams;
@@ -32,7 +29,7 @@
       script.id = 'tgd-chat-script';
       script.onload = async function () {
         window.$chatbot = new TGDChatBot({ 
-          identifier: urlParams["botIdentifier"] || urlParams["botIdentifier"]
+          identifier: urlParams["botIdentifier"]
         });
         await window.$chatbot.startApp();
         console.log('... chat app started.');
