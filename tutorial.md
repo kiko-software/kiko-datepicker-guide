@@ -86,7 +86,7 @@ Use the cloud-code cloud-run extension of your code editor.
 ## Kiko Integration
 - Create your own Kiko CMS account: https://www.kiko.bot/kostenlos-registrieren-chatbot-cms/
 - Create an external subbot with the name "subbot-datepicker" in the CMS via the menu "Botlist". 
-- Enter the URL of the published web service in the subbot via the submenu item "Edit webhooks" in the field "Receive message".
+- Enter the URL of the published web service in the subbot via the submenu item "Edit webhooks" in the field "Receive message": https://kiko-datepicker-guide-....a.run.app/v1/webhook-message-sent
 - Create an intent with the name "Datepicker form dialog" via the "Content" menu in the "metabot" enter "subbot-datepicker" as the subbot's forwarding.
 - Enter the text value "Form sent." in "Content" under "Result".
 - For recognition, create the entity type "topic" with the entity value "datepicker".
@@ -109,6 +109,7 @@ Use the cloud-code cloud-run extension of your code editor.
 }
 ```
 - Leave the field "Query parameters" deactivated.
+- Publish the bot with the intent and the external subbot via the menu "Botlist"
 
 ## Test
 For the test, we need the sample web page mentioned above with the included library for the datepicker:

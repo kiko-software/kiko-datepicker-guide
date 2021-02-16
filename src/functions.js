@@ -23,7 +23,6 @@ async function getAnyQuestionMessages (parameter) {
  * 
  */
 async function getDateQuestionMessages (parameter) {
-  // custom datepicker handling ---
   const dateElementId = 'mydatepicker'
   const selectedDate = '14.2.2021'
   return [
@@ -123,7 +122,6 @@ async function postWebhookMessageSent (req, res) {
   const referer = req.get('referer') || req.query.referer
   if (!referer) throw createError(400, 'Missing referer.')
   const endpointBaseUrl = referer.replace(/\/\//g, 'https://')
-
   await runDatePickerDialog({ endpointBaseUrl, conversationId, messages })
   res.status(200).json({ success: true })
 }
