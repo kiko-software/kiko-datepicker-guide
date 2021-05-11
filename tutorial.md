@@ -72,9 +72,11 @@ npm install
 
 Start the web service.
 ```console
+export PORT=8081
+DEBUG=date-guide:debug
 npm run start
 ```
-Expected output: "The container started successfully on port 8080"
+Expected output: "The container started successfully on port 8081"
 
 ## Deploy
 Use the cloud-code cloud-run extension of your code editor.

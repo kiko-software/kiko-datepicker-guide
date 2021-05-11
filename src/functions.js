@@ -23,7 +23,8 @@ async function getAnyQuestionMessages (parameter) {
  * 
  */
 async function getDateQuestionMessages (parameter) {
-  const dateElementId = 'mydatepicker'
+  const dateElementId = 'mydatepicker-123'
+  const dateElementClass = 'mydatepicker'
   const selectedDate = '14.2.2021'
   return [
     {
@@ -37,7 +38,7 @@ async function getDateQuestionMessages (parameter) {
       type: 'message',
       data: {
         content: `
-        <div id="${dateElementId}" data-date="${selectedDate}"></div>            
+        <div class="${dateElementClass}" id="${dateElementId}" data-date="${selectedDate}"></div>            
         `,
         type: 'text/html'
       }

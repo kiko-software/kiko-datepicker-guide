@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Title of the document</title>
+      <script src="//develop-1e069fc.dev.1000grad.de/chat/tgd-bot-chat-web-component.min.js" id="tgd-chat-script"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js"></script>
+    </head>
+    <body onload="onloadChatScript()">
+      Content of the document......
+      <tgd-bot-chat-web-component />
+      <script>
+        function onloadChatScript() {
+          const options = {
+            identifier: 'f1c8ed3f-67e9-4234-be98-0c33246567f2',
+            menuButtons: {
+              stepBack: true,
+              refresh: true,
+              pdf: true,
+              textToSpeech: true
+            },
+            viewMode: "widget"
+          };
+
+          window.$chatbot.startApp(options).then(function() {
+            console.log("... chat app started.");
+
+            // find datepicker element in messages - BEGIN --
+            const dateElementId = 'mydatepicker-123';
+            const dateElementClassName = 'datepicker';
+            const parser = new DOMParser();
+            const chatbotRoot = document.getElementsByTagName("tgd-bot-chat-web-component")[0].shadowRoot;          
+            const linkToStyleElement = document.createElement('link')
+            linkToStyleElement.setAttribute("rel", "stylesheet");
+            linkToStyleElement.setAttribute("href", "https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/css/datepicker.min.css");
+            chatbotRoot.appendChild(linkToStyleElement);
+
+            const script1Element = document.createElement('script')
+            script1Element.setAttribute("src", "https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/datepicker-full.min.js");
+            chatbotRoot.appendChild(script1Element);
+
+            const script2Element = document.createElement('script')
+            script2Element.setAttribute("src", "https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.2/dist/js/locales/de.js");
+            chatbotRoot.appendChild(script2Element);
+
+            window.$chatbot.on('messageReceived', (event) => {
+              // console.log("... messageReceived.");
+              event.detail.forEach((message) => {
+                if (message.data.type === 'text/html' && message.data.hasOwnProperty('content')) {
+                  // console.log("... text/html found.");
+                  const htmlDoc = parser.parseFromString(message.data.content, 'text/html');
+                  if (htmlDoc.getElementById(dateElementId)) {
+                    // TODO: better check classname, show/replace all elements and process only the last element
+                    const elem = chatbotRoot.getElementById(dateElementId);
+                    // console.log("... elem:", elem);
+                    if (elem) {
+                      const datepicker = new Datepicker(elem,{ language: 'de' });
+                      elem.addEventListener('changeDate', e => {
+                        window.$chatbot.sendAsUser({ text: Datepicker.formatDate(e.detail.date, 'dd.mm.yyyy', 'de') });
+                      });              
+                    }
+                  }
+                }
+              });
+            });
+            // find datepicker element in messages - END --
+          });
+
+
+
+        }
+      </script>
+    </body>
+  </html>
